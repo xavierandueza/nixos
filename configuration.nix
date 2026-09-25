@@ -15,6 +15,8 @@
     "flakes"
   ];
 
+  programs.hyprland.enable = true;
+
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -31,10 +33,10 @@
   time.timeZone = "Australia/Melbourne";
 
   # Sets up app launcher, desktop portal paths
-  environment.pathsToLink = [
-    "/share/applications"
-    "/share/xdg-desktop-portal"
-  ];
+  # environment.pathsToLink = [
+  #   "/share/applications"
+  #   "/share/xdg-desktop-portal"
+  # ];
 
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
