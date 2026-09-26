@@ -1,8 +1,15 @@
-{ pkgs, ... }: {
+{ pkgs, ... }: 
+
+let 
+  fontFamily = "JetBrains Mono";
+in
+{
   home.username = "xavier";
   home.homeDirectory = "/home/xavier";
   home.stateVersion = "26.05";
-  home.packages = [ pkgs.hello ];
+  home.packages = [ pkgs.jetbrains-mono ];
+
+  fonts.fontconfig.enable = true;
 
   programs = {
     ghostty = {
@@ -10,7 +17,7 @@
       clearDefaultKeybinds = true; # Never use them
 
       settings = {
-        font-size = 11;
+        font-size = 10;
 	theme = "TokyoNight Moon";
       };
     };
@@ -29,15 +36,53 @@
         mainbar = {
 	  layer = "top";
 	  position = "top";
-	  height = 30;
+	  height = 27;
 	  output = [
 	    "eDP-1"
 	  ];
-	  # modules-left = [ ];
-	  # modules-center = [ "clock" ];
-	  # modules-right = ["battery"];
+	  modules-left = [ "hyprland/workspaces" ];
+	  modules-center = [ "clock" ];
+	  modules-right = ["battery"];
+
+	  "hyprland/workspaces" = {
+	    update-active-window = true;
+	    persistent-workspaces."*" = [ 1 2 3 4 5 ];
+	  };
 	};
       };
+      style = ''
+
+        * {
+	  border: none;
+	  border-radius: 0;
+	  font-size: 12px;
+	  font-weight: 400;
+	  font-family: "${fontFamily}", monospace;
+	}
+
+	window#waybar {
+	  background: #1b1b2b;
+	  color: #c8d3f5;
+	}
+
+	#workspaces {
+	  margin-left: 8px;
+	}
+
+	#battery {
+	  margin-right: 12px;
+	}
+
+	#workspaces button {
+	  padding: 0 6px;
+	  margin: 0;
+	  min-width: 0;
+	}
+
+	#workspaces button.active {
+	  color: #c8d3f5;
+	}
+      '';
     };
   };
   
