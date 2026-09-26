@@ -20,14 +20,37 @@
       defaultEditor = true;
       viAlias = true;
     };
+
+    waybar = {
+      enable = true;
+      systemd.enable = true;
+
+      settings = {
+        mainbar = {
+	  layer = "top";
+	  position = "top";
+	  height = 30;
+	  output = [
+	    "eDP-1"
+	  ];
+	  # modules-left = [ ];
+	  # modules-center = [ "clock" ];
+	  # modules-right = ["battery"];
+	};
+      };
+    };
   };
+  
+  services = {
+    mako = {
+      enable = true;
 
-  services.mako = {
-    enable = true;
+      extraConfig = ''
+        max-history=10
+      '';
+    };
 
-    extraConfig = ''
-      max-history=10
-    '';
+    hyprpolkitagent.enable = true;
   };
  
   wayland.windowManager.hyprland = {
