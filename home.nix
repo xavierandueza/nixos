@@ -5,6 +5,7 @@
   home.stateVersion = "26.05";
   home.packages = [ 
     pkgs.jetbrains-mono
+    pkgs.hyprshutdown
   ];
 
   imports = [ 
@@ -92,6 +93,10 @@
 	}
       '';
     };
+
+    hyprlock = { 
+      enable = true;
+    };
   };
   
   services = {
@@ -115,6 +120,32 @@
 	}
       ];
     };
+
+    hyprlauncher = {
+      enable = true;
+    };
+
+    hypridle = {
+      enable = true;
+      settings = {
+        general = {
+	  lock_cmd = "hyprlock";
+	  after_sleep_cmd = "hyprctl dispatch dpms on";
+
+	};
+        listener = [
+	  {
+	    on-timeout = "hyprlock";
+	    timeout = 600;
+	  }
+	  {
+	    on-resume = "hyprctl dispatch dpms on";
+	    on-timeout = "hyprctl dispatch dpms off";
+	    timout = 1500;
+	  }
+	];
+      };
+    };
   };
  
   wayland.windowManager.hyprland = {
@@ -127,6 +158,7 @@
       -- Application binds
       hl.bind("SUPER + RETURN", hl.dsp.exec_cmd("ghostty"));
       hl.bind("SUPER + SHIFT + B", hl.dsp.exec_cmd("zen-beta"));
+      hl.bind("SUPER + SPACE", hl.dsp.exec_cmd("hyprlauncher"));
 
       -- General Window Binds
       hl.bind("SUPER + Q", hl.dsp.window.close());
