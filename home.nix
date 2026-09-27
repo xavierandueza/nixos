@@ -27,10 +27,10 @@
 
     ripgrep.enable = true;
     gh.enable = true;
-    # lazygit = {
-    #   enable = true;
-    #   enableBashIntegration = true;
-    # };
+    lazygit = {
+      enable = true;
+      enableBashIntegration = true;
+    };
     # docker-cli.enable = true;
     # lazydocker.enable = true;
     
