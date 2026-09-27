@@ -104,6 +104,17 @@
     };
 
     hyprpolkitagent.enable = true;
+
+    hyprpaper = {
+      enable = true;
+      settings.wallpaper = [
+        {
+	  fit_mode = "cover";
+	  monitor = "";
+	  path = "${./wallpapers/ruins.jpg}";
+	}
+      ];
+    };
   };
  
   wayland.windowManager.hyprland = {
@@ -115,6 +126,7 @@
 
       -- Application binds
       hl.bind("SUPER + RETURN", hl.dsp.exec_cmd("ghostty"));
+      hl.bind("SUPER + SHIFT + B", hl.dsp.exec_cmd("zen-beta"));
 
       -- General Window Binds
       hl.bind("SUPER + Q", hl.dsp.window.close());
@@ -185,7 +197,7 @@
 
       decoration = { 
         rounding = 10;
-	active_opacity = 0.975;
+	active_opacity = 0.99;
 	inactive_opacity = 0.95;
       };
 
