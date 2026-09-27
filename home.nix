@@ -31,8 +31,8 @@
       enable = true;
       enableBashIntegration = true;
     };
-    # docker-cli.enable = true;
-    # lazydocker.enable = true;
+    docker-cli.enable = true;
+    lazydocker.enable = true;
     
     neovim = {
       enable = true;
