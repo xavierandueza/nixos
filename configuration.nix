@@ -17,6 +17,14 @@
 
   programs.hyprland.enable = true;
 
+  services.greetd = {
+    enable = true;
+    settings.default_session = {
+      command = "${lib.getExe' pkgs.tuigreet "tuigreet"} --cmd start-hyprland";
+      user = "greeter";
+    };
+  };
+
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
