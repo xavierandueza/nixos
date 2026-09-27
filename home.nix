@@ -123,7 +123,7 @@
         {
 	  fit_mode = "cover";
 	  monitor = "";
-	  path = "${./wallpapers/ruins.jpg}";
+	  path = "${./wallpapers/artsy.jpg}";
 	}
       ];
     };
