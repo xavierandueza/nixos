@@ -1,12 +1,22 @@
 {
   description = "Framework 16 NixOS";
 
-  inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
+  inputs = {
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
-  inputs.home-manager.url = "github:nix-community/home-manager/release-26.05";
-  inputs.home-manager.inputs.nixpkgs.follows = "nixpkgs";
+    home-manager = {
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
-  outputs = { nixpkgs, home-manager, ... }: { 
+    zen-browser = {
+      url = "github:0xc000022070/zen-browser-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.home-manager.follows = "home-manager";
+    };
+  };
+
+  outputs = inputs@{ nixpkgs, home-manager, ... }: { 
     nixosConfigurations.framework16 = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       modules = [
@@ -16,6 +26,7 @@
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
           home-manager.users.xavier = import ./home.nix;
+	  home-manager.extraSpecialArgs = { inherit inputs; };
         }
       ];
     };

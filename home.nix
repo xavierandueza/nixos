@@ -1,13 +1,15 @@
-{ pkgs, ... }: 
-
-let 
-  fontFamily = "JetBrains Mono";
-in
+{ pkgs, inputs, ... }: 
 {
   home.username = "xavier";
   home.homeDirectory = "/home/xavier";
   home.stateVersion = "26.05";
-  home.packages = [ pkgs.jetbrains-mono ];
+  home.packages = [ 
+    pkgs.jetbrains-mono
+  ];
+
+  imports = [ 
+    inputs.zen-browser.homeModules.beta
+  ];
 
   fonts.fontconfig.enable = true;
 
@@ -21,11 +23,17 @@ in
 	theme = "TokyoNight Moon";
       };
     };
+
+    ripgrep.enable = true;
     
     neovim = {
       enable = true;
       defaultEditor = true;
       viAlias = true;
+    };
+
+    zen-browser = {
+      enable = true;
     };
 
     waybar = {
@@ -57,7 +65,7 @@ in
 	  border-radius: 0;
 	  font-size: 12px;
 	  font-weight: 400;
-	  font-family: "${fontFamily}", monospace;
+	  font-family: "JetBrains Mono", monospace;
 	}
 
 	window#waybar {
