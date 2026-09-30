@@ -6,6 +6,7 @@
   home.packages = [ 
     pkgs.nerd-fonts.jetbrains-mono
     pkgs.hyprshutdown
+    pkgs.blesh
   ];
 
   imports = [ 
@@ -25,7 +26,29 @@
       };
     };
 
+    bash = {
+      enable = true;
+      enableCompletion = true;
+    };
+
+    zoxide = {
+      enable = true;
+      enableBashIntegration = true;
+      options = [ "--cmd" "cd" ];
+    };
+
     ripgrep.enable = true;
+    bottom.enable = true;
+
+    atuin = {
+      enable = true;
+      enableBashIntegration = true;
+      daemon.enable = true;
+      settings = {
+        enter_accept = true;
+      };
+    };
+
     gh.enable = true;
     lazygit = {
       enable = true;
