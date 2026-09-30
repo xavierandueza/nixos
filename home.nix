@@ -4,7 +4,7 @@
   home.homeDirectory = "/home/xavier";
   home.stateVersion = "26.05";
   home.packages = [ 
-    pkgs.jetbrains-mono
+    pkgs.nerd-fonts.jetbrains-mono
     pkgs.hyprshutdown
   ];
 
@@ -60,6 +60,14 @@
 	  modules-center = [ "clock" ];
 	  modules-right = ["battery"];
 
+          battery = {
+            format = "{capacity}% {icon}";
+            format-icons = {
+              default = [ "󰂎" "󰁺" "󰁻" "󰁼" "󰁽" "󰁾" "󰁿" "󰂀" "󰂁" "󰂂" "󰁹" ];
+              charging = [ "󰢟" "󰢜" "󰂆" "󰂇" "󰂈" "󰢝" "󰂉" "󰢞" "󰂊" "󰂋" "󰂄" ];
+	    };
+          };
+
 	  "hyprland/workspaces" = {
 	    update-active-window = true;
 	    persistent-workspaces."*" = [ 1 2 3 4 5 ];
@@ -73,7 +81,7 @@
 	  border-radius: 0;
 	  font-size: 12px;
 	  font-weight: 400;
-	  font-family: "JetBrains Mono", monospace;
+	  font-family: "JetBrainsMono Nerd Font";
 	}
 
 	window#waybar {
