@@ -106,6 +106,15 @@
     zen-browser = {
       enable = true;
       setAsDefaultBrowser = true;
+      profiles = {
+        default = {
+          mods = [
+            "c01d3e22-1cee-45c1-a25e-53c0f180eea8" # Ghost Tabs
+            "e122b5d9-d385-4bf8-9971-e137809097d0" # No top sites
+	    "4ab93b88-151c-451b-a1b7-a1e0e28fa7f8" # No Sidebar Scroll
+          ];
+        };
+      };
       policies = let
         mkExtensionSettings = builtins.mapAttrs (_: pluginId: {
           install_url = "https://addons.mozilla.org/firefox/downloads/latest/${pluginId}/latest.xpi";

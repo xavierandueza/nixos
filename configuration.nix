@@ -40,6 +40,18 @@
   # Set your time zone.
   time.timeZone = "Australia/Melbourne";
 
+  nixpkgs.config.allowUnfree = true;
+  programs.steam.enable = true;
+
+  environment.sessionVariables = {
+    STEAM_FORCE_DESKTOPUI_SCALING = "1.6";
+  };
+
+  hardware.graphics = {
+    enable = true;
+    enable32Bit = true;
+  };
+
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
