@@ -43,10 +43,6 @@
   nixpkgs.config.allowUnfree = true;
   programs.steam.enable = true;
 
-  environment.sessionVariables = {
-    STEAM_FORCE_DESKTOPUI_SCALING = "1.6";
-  };
-
   hardware.graphics = {
     enable = true;
     enable32Bit = true;

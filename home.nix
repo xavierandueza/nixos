@@ -6,7 +6,6 @@
   home.packages = [ 
     pkgs.nerd-fonts.jetbrains-mono
     pkgs.hyprshutdown
-    pkgs.blesh
   ];
 
   imports = [ 
@@ -113,6 +112,145 @@
             "e122b5d9-d385-4bf8-9971-e137809097d0" # No top sites
 	    "4ab93b88-151c-451b-a1b7-a1e0e28fa7f8" # No Sidebar Scroll
           ];
+	  search = {
+            force = true; # Enforce declared search engines on each rebuild
+            default = "ddg";
+            engines = {
+              mynixos = {
+                name = "My NixOS";
+                urls = [
+                  {
+                    template = "https://mynixos.com/search?q={searchTerms}";
+                    params = [
+                      {
+                        name = "query";
+                        value = "searchTerms";
+                      }
+                    ];
+                  }
+                ];
+                icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
+                definedAliases = ["@nx"];
+              };
+              github = {
+                name = "GitHub Search";
+                urls = [
+                  {
+                    template = "https://github.com/search?q={searchTerms}";
+                  }
+                ];
+                definedAliases = ["@gh"];
+              };
+            };
+	  };
+	  containersForce = true;
+	  containers = {
+	    personal = {
+	      id = 1;
+	      color = "blue";
+	      icon = "fingerprint";
+	      
+	    };
+	    work = {
+	      id = 2;
+	      color = "purple";
+	      icon = "briefcase";
+	    };
+	  };
+	  spacesForce = true;
+	  spaces = {
+	    "Personal" = {
+	      id = "c6de089c-410d-4206-961d-ab11f988d40a";
+              position = 1000;
+	      icon = "🟦";
+              theme = {
+                type = "gradient";
+
+                colors = [
+                  {
+                    red = 42;
+                    green = 100;
+                    blue = 155;
+                    algorithm = "floating";
+                    type = "explicit-lightness";
+                    lightness = 50;
+                  }
+		  {
+		    red = 87;
+		    green = 154;
+		    blue = 199;
+                    algorithm = "floating";
+                    type = "explicit-lightness";
+                    lightness = 50;
+		  }
+                  {
+                    red = 79;
+                    green = 176;
+                    blue = 213;
+                    algorithm = "floating";
+                    type = "explicit-lightness";
+                    lightness = 50;
+                  }
+		];
+	      };
+              pins = {
+	        "ChatGPT" = {
+		  id = "58793b4f-2970-4387-8142-10e4b136936d";
+		  url = "https://chatgpt.com/";
+		  position = 100;
+		  isEssential = true;
+		};
+	        "Email" = {
+                  id = "5e8db6a4-92c7-4f31-8a60-1b9f3ce47d28";
+                  url = "https://mail.google.com";
+                  position = 200;
+		  isEssential = true;
+                };
+		"Calendar" = {
+		  id = "faef6165-f4e8-41cc-b64b-0af980504d77";
+		  url = "https://calendar.notion.so/";
+		  position = 300;
+		  isEssential = true;
+		};
+	      };
+	    };
+	    "Work" = {
+	      id = "cdd10fab-4fc5-494b-9041-325e5759195b";
+              position = 2000;
+	      icon = "🟪";
+              theme = {
+                type = "gradient";
+
+                colors = [
+                  {
+                    red = 100;
+                    green = 42;
+                    blue = 155;
+                    algorithm = "floating";
+                    type = "explicit-lightness";
+                    lightness = 50;
+                  }
+		  {
+		    red = 126;
+		    green = 87;
+		    blue = 199;
+                    algorithm = "floating";
+                    type = "explicit-lightness";
+                    lightness = 50;
+		  }
+                  {
+                   red = 114;
+                   green = 83;
+                   blue = 237;
+                   algorithm = "floating";
+                   type = "explicit-lightness";
+                   lightness = 50;
+                 }                 
+		];
+	      };
+
+	    };
+	  };
         };
       };
       policies = let
@@ -172,6 +310,10 @@
 	  "hyprland/workspaces" = {
 	    update-active-window = true;
 	    persistent-workspaces."*" = [ 1 2 3 4 5 ];
+	    format = "{icon}";
+	    format-icons = {
+	      active = "";
+	    };
 	  };
 	};
       };
@@ -181,7 +323,6 @@
 	  border: none;
 	  border-radius: 0;
 	  font-size: 12px;
-	  font-weight: 400;
 	  font-family: "JetBrainsMono Nerd Font";
 	}
 
@@ -202,7 +343,12 @@
 	  padding: 0 6px;
 	  margin: 0;
 	  min-width: 0;
+	  color: #c8d3f5;
 	}
+
+        #workspaces button.empty {
+          color: alpha(#c8d3f5, 0.35);
+        }
 
 	#workspaces button.active {
 	  color: #c8d3f5;
@@ -325,33 +471,40 @@
       hl.animation({ leaf = "windows", enabled = true, speed = 1.5, bezier = "myBezier", style = "popin" })
       hl.animation({ leaf = "fade", enabled = true, speed = 1.8, bezier = "myBezier" });
       hl.animation({ leaf = "workspaces", enabled = false });
+
+      -- Scaling xwayland apps
+      hl.env("GDK_SCALE", "2")
+      hl.env("XCURSOR_SIZE", "32")
     '';
 
-    settings.config = {
-      input = {
-        kb_layout = "us";
-        kb_variant = "colemak";
-      };
+    settings = {
+      config = {
+        xwayland.force_zero_scaling = true;
+        input = {
+          kb_layout = "us";
+          kb_variant = "colemak";
+        };
 
-      general = {
-        border_size = 2;
-	gaps_in = 5;
-	gaps_out = 10;
-        col = { 
-          active_border = "0xff86e1fc";
-	  inactive_border = "0xbb444a73";
-	};
-      };
+        general = {
+          border_size = 2;
+          gaps_in = 5;
+          gaps_out = 10;
+          col = { 
+            active_border = "0xff86e1fc";
+            inactive_border = "0xbb444a73";
+          };
+        };
 
-      decoration = { 
-        rounding = 10;
-	active_opacity = 0.99;
-	inactive_opacity = 0.95;
-      };
+        decoration = { 
+          rounding = 10;
+          active_opacity = 0.99;
+          inactive_opacity = 0.95;
+        };
 
-      cursor = {
-        hide_on_key_press = true;
-	inactive_timeout = 60;
+        cursor = {
+          hide_on_key_press = true;
+          inactive_timeout = 60;
+        };
       };
     };
   };
