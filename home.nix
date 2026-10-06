@@ -1,4 +1,8 @@
 { pkgs, inputs, lib, ... }: 
+
+let
+  toml = pkgs.formats.toml { };
+in
 {
   home.username = "xavier";
   home.homeDirectory = "/home/xavier";
@@ -7,6 +11,8 @@
     pkgs.nerd-fonts.jetbrains-mono
     pkgs.hyprshutdown
     pkgs.freecad
+    inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.herdr
+    inputs.pi.packages.${pkgs.stdenv.hostPlatform.system}.pi
   ];
 
   imports = [ 
@@ -53,7 +59,7 @@
       enable = true;
       enableBashIntegration = true;
       settings = {
-        add_newline = true;
+        add_newline = false;
 	command_timeout = 200;
         format = "[$directory$git_branch$git_status]($style)\n$character";
         character = {
@@ -507,6 +513,39 @@
           inactive_timeout = 60;
         };
       };
+    };
+  };
+
+  xdg.configFile."herdr/config.toml".source = toml.generate "herdr-config.toml" {
+    theme = {
+      name = "tokyo-night";
+    };
+    terminal = {
+      new_cwd = "follow";
+    };
+    update = {
+      version_check = false;
+    };
+    keys = {
+      prefix = "ctrl+space";
+      new_workspace = "prefix+shift+c";
+      remove_worktree = "prefix+shift+x";
+      previous_agent = "alt+shift+k";
+      next_agent = "alt+shift+j";
+      focus_agent = "alt+shift+1..9";
+      previous_tab = "alt+h";
+      next_tab = "alt+l";
+      navigate_workspace_up = "alt+k";
+      navigate_workspace_down = "alt+j";
+      command = [
+        {
+          key = "prefix+shift+g";
+          type="popup";
+          command="lazygit";
+          width="95%";
+          height="95%";
+        }
+      ];
     };
   };
 }

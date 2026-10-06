@@ -14,6 +14,9 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.home-manager.follows = "home-manager";
     };
+
+    llm-agents.url = "github:numtide/llm-agents.nix";
+    pi.url = "github:earendil-works/pi/stable";
   };
 
   outputs = inputs@{ nixpkgs, home-manager, ... }: { 
