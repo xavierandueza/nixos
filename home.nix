@@ -6,6 +6,7 @@
   home.packages = [ 
     pkgs.nerd-fonts.jetbrains-mono
     pkgs.hyprshutdown
+    pkgs.freecad
   ];
 
   imports = [ 
