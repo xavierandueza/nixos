@@ -547,5 +547,15 @@ in
         }
       ];
     };
+    ui = {
+      sidebar_collapsed_mode = "hidden";
+      confirm_close = false;
+      pane_scrollbars = false;
+      agent_panel_sort = "priority";
+      status_indicators = "symbols";
+      toast = {
+        delivery = "off";
+      };
+    };
   };
 }
