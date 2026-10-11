@@ -22,8 +22,6 @@ in
 
   fonts.fontconfig.enable = true;
 
-  # xdg.configFile."nvim".source = inputs.neovim-config;
-
   programs = {
     impala.enable = true;
 
@@ -391,7 +389,7 @@ in
         {
 	  fit_mode = "cover";
 	  monitor = "";
-	  path = "${./wallpapers/artsy.jpg}";
+	  path = "${./assets/wallpapers/desktop.png}";
 	}
       ];
     };

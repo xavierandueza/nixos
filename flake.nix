@@ -22,10 +22,6 @@
 
     llm-agents.url = "github:numtide/llm-agents.nix";
     pi.url = "github:earendil-works/pi/stable";
-    # neovim-config = {
-    #   url = "github:xavierandueza/neovim";
-    #   flake = false;
-    # };
   };
 
   outputs = inputs@{ nixpkgs, home-manager, ... }: { 
