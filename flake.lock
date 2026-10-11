@@ -187,7 +187,28 @@
         "llm-agents": "llm-agents",
         "nixpkgs": "nixpkgs_2",
         "pi": "pi",
+        "sops-nix": "sops-nix",
         "zen-browser": "zen-browser"
+      }
+    },
+    "sops-nix": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1791639265,
+        "narHash": "sha256-51gxD0eLcJkxH2TYdhE+Qsf04yg3PRV7anCAqOFX70E=",
+        "owner": "Mic92",
+        "repo": "sops-nix",
+        "rev": "a8be3b14935d3532604c51c8dfe3021c73d1a885",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Mic92",
+        "repo": "sops-nix",
+        "type": "github"
       }
     },
     "systems": {

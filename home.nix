@@ -13,6 +13,7 @@ in
     pkgs.freecad
     inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.herdr
     inputs.pi.packages.${pkgs.stdenv.hostPlatform.system}.pi
+    pkgs.bluetui
   ];
 
   imports = [ 
@@ -21,7 +22,11 @@ in
 
   fonts.fontconfig.enable = true;
 
+  # xdg.configFile."nvim".source = inputs.neovim-config;
+
   programs = {
+    impala.enable = true;
+
     ghostty = {
       enable = true;
       clearDefaultKeybinds = true; # Never use them
@@ -29,6 +34,7 @@ in
       settings = {
         font-size = 10;
 	theme = "TokyoNight Moon";
+	clipboard-read = "allow";
       };
     };
 
@@ -517,6 +523,7 @@ in
   };
 
   xdg.configFile."herdr/config.toml".source = toml.generate "herdr-config.toml" {
+    onboarding = false;
     theme = {
       name = "tokyo-night";
     };
