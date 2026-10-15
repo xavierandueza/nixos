@@ -417,14 +417,16 @@
 
     hyprpaper = {
       enable = true;
-      settings.wallpaper = [
-        {
-          fit_mode = "cover";
-          monitor = "";
-          path = "${./assets/wallpapers/desktop.png}";
-          splash = false;
-        }
-      ];
+      settings = {
+        splash = false;
+        wallpaper = [
+          {
+            fit_mode = "cover";
+            monitor = "";
+            path = "${./assets/wallpapers/desktop.png}";
+          }
+        ];
+      };
     };
 
     hyprlauncher = {
