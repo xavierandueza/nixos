@@ -9,11 +9,16 @@
   # Require a provisioned identity rather than generating a new, unauthorized one.
   sops.age.generateKey = false;
   # Disable using SSH host keys as additional age identities.
-  sops.age.sshKeyPaths = [];
+  sops.age.sshKeyPaths = [ ];
   # Disable importing SSH host keys for GPG decryption.
-  sops.gnupg.sshKeyPaths = [];
+  sops.gnupg.sshKeyPaths = [ ];
 
   sops.secrets.github-token = {
+    owner = "xavier";
+    mode = "0400";
+  };
+
+  sops.secrets.anthropic-api-key = {
     owner = "xavier";
     mode = "0400";
   };
