@@ -2,6 +2,7 @@
   pkgs,
   inputs,
   lib,
+  osConfig,
   ...
 }:
 let
@@ -43,26 +44,38 @@ let
     "ctx_insight"
   ];
 
+  # Hard per-response output cap. Reserve covers it, pi's 4096-token request
+  # safety margin, and slack for pi's token estimate running low.
+  outputLimits = rec {
+    maxTokens = 32000;
+    reserveTokens = maxTokens + 4096 + 8192;
+  };
+
+  mainLimits = outputLimits // {
+    contextWindow = 320000;
+  };
+
+  workerLimits = outputLimits // {
+    contextWindow = 175000;
+  };
+
   # Cap model context windows for models I use
   contextLimits = {
     anthropic = {
-      claude-opus-5-5.contextWindow = 250000;
-      claude-haiku-5-5 = {
-        contextWindow = 128000;
-        reserveTokens = 8000;
-      };
+      claude-opus-5-5 = mainLimits;
+      claude-haiku-5-5 = workerLimits;
     };
     openai-codex = {
-      "gpt-6.1-sol".contextWindow = 250000;
-      gpt-6-luna = {
-        contextWindow = 128000;
-        reserveTokens = 8000;
+      # Codex's real window is 272K, so it can't share Opus's 320K cap.
+      "gpt-6.1-sol" = mainLimits // {
+        contextWindow = 272000;
       };
+      gpt-6-luna = workerLimits;
     };
   };
 
   modelOverrides = lib.mapAttrs (
-    _: models: lib.mapAttrs (_: limits: { inherit (limits) contextWindow; }) models
+    _: models: lib.mapAttrs (_: limits: removeAttrs limits [ "reserveTokens" ]) models
   ) contextLimits;
 
   compactionOverrides = lib.concatMapAttrs (
@@ -145,6 +158,33 @@ in
     ---
     enabled: false
     ---
+  '';
+
+  # Store only a lookup command, never the decrypted key. Merge so other
+  # providers' API keys and OAuth credentials remain locally managed.
+  home.activation.configurePiAnthropicAuth = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    run ${pkgs.writeShellScript "configure-pi-anthropic-auth" ''
+      set -eu
+      umask 077
+      authFile="$HOME/.pi/agent/auth.json"
+      ${pkgs.coreutils}/bin/mkdir -p "$HOME/.pi/agent"
+      tempFile="$(${pkgs.coreutils}/bin/mktemp "$authFile.XXXXXX")"
+      trap '${pkgs.coreutils}/bin/rm -f "$tempFile"' EXIT
+
+      inputFile="$authFile"
+      if [ ! -f "$inputFile" ]; then
+        inputFile="$tempFile"
+        printf '{}\n' > "$inputFile"
+      fi
+
+      # Read before writing, including when creating auth.json for the first time.
+      authJson="$(${pkgs.jq}/bin/jq \
+        --arg key ${lib.escapeShellArg "!${pkgs.coreutils}/bin/cat ${lib.escapeShellArg osConfig.sops.secrets.anthropic-api-key.path}"} \
+        '.anthropic = {type: "api_key", key: $key}' "$inputFile")"
+      printf '%s\n' "$authJson" > "$tempFile"
+      ${pkgs.coreutils}/bin/chmod 0600 "$tempFile"
+      ${pkgs.coreutils}/bin/mv -f "$tempFile" "$authFile"
+    ''}
   '';
 
   home.activation.configurePiModel = lib.hm.dag.entryAfter [ "installPiPackages" ] ''
