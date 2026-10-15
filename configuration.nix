@@ -40,8 +40,15 @@
 
   networking.hostName = "framework16"; # Define your hostname.
 
-  # Configure network connections interactively with nmcli or nmtui.
-  networking.networkmanager.enable = true;
+  networking.networkmanager = {
+    enable = true;
+    wifi.backend = "iwd";
+  };
+
+  hardware.bluetooth = {
+    enable = true;
+    powerOnBoot = true;
+  };
 
   # Set your time zone.
   time.timeZone = "Australia/Melbourne";
