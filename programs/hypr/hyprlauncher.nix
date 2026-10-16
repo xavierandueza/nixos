@@ -1,0 +1,9 @@
+{ ... }:
+
+{
+  services = {
+    hyprlauncher = {
+      enable = true;
+    };
+  };
+}

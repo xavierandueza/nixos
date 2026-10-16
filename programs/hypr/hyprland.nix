@@ -1,6 +1,10 @@
-{ ... }:
+{ pkgs, ... }:
 
 {
+  home.packages = [
+    pkgs.hyprshutdown
+  ];
+
   wayland.windowManager.hyprland = {
     enable = true;
 
@@ -90,10 +94,6 @@
           rounding = 10;
           active_opacity = 0.99;
           inactive_opacity = 0.95;
-        };
-
-        misc = {
-          disable_splash_rendering = true;
         };
 
         cursor = {
