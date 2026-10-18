@@ -17,9 +17,22 @@
           modules-left = [ "hyprland/workspaces" ];
           modules-center = [ "clock" ];
           modules-right = [
+            "bluetooth"
             "network"
             "battery"
           ];
+
+          clock = {
+            tooltip = false;
+          };
+
+          bluetooth = {
+            format = "{icon}";
+            format-on = "";
+            format-off = "󰂲";
+            format-connected = "󰂱";
+            tooltip-format = "{status} {device_alias}";
+          };
 
           network = {
             format = "{icon}";
@@ -101,13 +114,17 @@
         	  margin-left: 8px;
         	}
 
-        	#battery {
-        	  margin-right: 12px;
-        	}
-
+          #bluetooth {
+            margin-right: 10px;
+          }
+          
           #network {
             margin-right: 14px;
           }
+
+        	#battery {
+        	  margin-right: 12px;
+        	}
 
         	#workspaces button {
         	  padding: 0 6px;
