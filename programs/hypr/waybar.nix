@@ -16,10 +16,28 @@
           ];
           modules-left = [ "hyprland/workspaces" ];
           modules-center = [ "clock" ];
-          modules-right = [ "battery" ];
+          modules-right = [
+            "network"
+            "battery"
+          ];
+
+          network = {
+            format = "{icon}";
+            format-icons = [
+              "󰤯"
+              "󰤟"
+              "󰤢"
+              "󰤥"
+              "󰤨"
+            ];
+            format-disconnected = "󰤮";
+            format-disabled = "󰤫";
+            tooltip-format-wifi = "{essid} ({signalStrength}%)";
+            tooltip-format-disconnected = "Disconnected";
+          };
 
           battery = {
-            format = "{capacity}% {icon}";
+            format = "{icon}<span font_size='6pt'> </span>{capacity}%";
             format-icons = {
               default = [
                 "󰂎"
@@ -67,8 +85,7 @@
         };
       };
       style = ''
-
-                * {
+          * {
         	  border: none;
         	  border-radius: 0;
         	  font-size: 12px;
@@ -88,6 +105,10 @@
         	  margin-right: 12px;
         	}
 
+          #network {
+            margin-right: 14px;
+          }
+
         	#workspaces button {
         	  padding: 0 6px;
         	  margin: 0;
@@ -95,9 +116,9 @@
         	  color: #c8d3f5;
         	}
 
-                #workspaces button.empty {
-                  color: alpha(#c8d3f5, 0.35);
-                }
+          #workspaces button.empty {
+            color: alpha(#c8d3f5, 0.35);
+          }
 
         	#workspaces button.active {
         	  color: #c8d3f5;
