@@ -113,6 +113,10 @@ in
       prompt_new_tab_name = true;
       mouse_capture = true;
       sound.enabled = true;
+      toast = {
+        delivery = "system";
+        delay_seconds = 1;
+      };
     };
   };
 }
