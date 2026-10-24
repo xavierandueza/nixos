@@ -3,6 +3,7 @@
 {
   home.packages = [
     pkgs.hyprshutdown
+    pkgs.brightnessctl
   ];
 
   wayland.windowManager.hyprland = {
