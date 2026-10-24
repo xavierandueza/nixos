@@ -22,6 +22,11 @@
 
     llm-agents.url = "github:numtide/llm-agents.nix";
     pi.url = "github:earendil-works/pi/stable";
+
+    agents = {
+      url = "github:xavierandueza/agents";
+      flake = false;
+    };
   };
 
   outputs =
