@@ -36,7 +36,6 @@ let
       notify-send \
         --app-name=volume \
         --icon="$icon" \
-        --expire-time=1500 \
         --hint=string:x-canonical-private-synchronous:volume \
         --hint=boolean:transient:true \
         --hint=int:value:"$progress" \

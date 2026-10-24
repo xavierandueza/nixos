@@ -24,7 +24,6 @@ let
       notify-send \
         --app-name=brightness \
         --icon=display-brightness \
-        --expire-time=1500 \
         --hint=string:x-canonical-private-synchronous:brightness \
         --hint=boolean:transient:true \
         --hint=int:value:"$brightness" \
