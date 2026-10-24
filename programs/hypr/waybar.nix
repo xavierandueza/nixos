@@ -19,6 +19,7 @@
           modules-right = [
             "bluetooth"
             "network"
+            "wireplumber"
             "battery"
           ];
 
@@ -47,6 +48,17 @@
             format-disabled = "󰤫";
             tooltip-format-wifi = "{essid} ({signalStrength}%)";
             tooltip-format-disconnected = "Disconnected";
+          };
+
+          wireplumber = {
+            format = "{icon}";
+            format-muted = "";
+            format-icons = [
+              ""
+              ""
+              ""
+            ];
+            tooltip-format = "{volume}% {node_name}";
           };
 
           battery = {
@@ -119,6 +131,10 @@
           }
           
           #network {
+            margin-right: 14px;
+          }
+
+          #wireplumber {
             margin-right: 14px;
           }
 
