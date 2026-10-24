@@ -9,6 +9,7 @@
     pkgs.freecad
     pkgs.slack
     pkgs.discord
+    pkgs.wl-clipboard
   ];
 
   imports = [
@@ -17,6 +18,7 @@
     ./programs/herdr.nix
     ./programs/pi.nix
     ./programs/zen-browser.nix
+    ./programs/screenshot.nix
     ./programs/hypr
   ];
 
