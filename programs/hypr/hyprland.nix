@@ -3,7 +3,6 @@
 {
   home.packages = [
     pkgs.hyprshutdown
-    pkgs.brightnessctl
   ];
 
   wayland.windowManager.hyprland = {
@@ -24,10 +23,6 @@
       hl.bind("SUPER + F", hl.dsp.window.fullscreen({ action = "toggle" }));
       hl.bind("SUPER + MINUS", hl.dsp.window.resize({ x = -50, y=0, relative = true }));
       hl.bind("SUPER + EQUAL", hl.dsp.window.resize({ x = 50, y=0, relative = true }));
-
-      -- Function commands
-      hl.bind("F7", hl.dsp.exec_cmd("brightnessctl set 5%-"));
-      hl.bind("F8", hl.dsp.exec_cmd("brightnessctl set +5%"));
 
       -- Window Focus and Movement
       for _, item in ipairs({

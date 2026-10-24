@@ -9,6 +9,7 @@
     ./hyprpaper.nix
     ./hyprpolkitagent.nix
     ./mako.nix
+    ./media-keys
     ./waybar.nix
   ];
 }
