@@ -8,8 +8,15 @@
 let
   pi = inputs.pi.packages.${pkgs.system}.default;
 
-  # Source of truth for which pi packages should be installed.
-  # Versioned specs (npm:foo@1.2.3) are pinned; pi skips them on `pi update`.
+  claudeTokenReader = pkgs.writeShellScript "read-pi-claude-token" ''
+    set -eu
+    token="$(${pkgs.coreutils}/bin/cat ${lib.escapeShellArg osConfig.sops.secrets.claude-subscription-key.path})"
+    case "$token" in
+      sk-ant-oat*) printf '%s\n' "$token" ;;
+      *) echo "Expected a Claude subscription setup-token, not an API key" >&2; exit 1 ;;
+    esac
+  '';
+
   piPackages = [
     "npm:context-mode"
     "npm:@narumitw/pi-stamp"
@@ -124,6 +131,10 @@ in
     executable = true;
     text = ''
       #!${pkgs.runtimeShell}
+      set -eu
+      unset ANTHROPIC_API_KEY ANTHROPIC_AUTH_TOKEN
+      CLAUDE_CODE_OAUTH_TOKEN="$(${claudeTokenReader})"
+      export CLAUDE_CODE_OAUTH_TOKEN
       export CLAUDE_CODE_MAX_OUTPUT_TOKENS=${toString outputLimits.maxTokens}
       exec ${pkgs.claude-code}/bin/claude "$@"
     '';
@@ -179,8 +190,6 @@ in
     ---
   '';
 
-  # Store only a lookup command, never the decrypted key. Merge so other
-  # providers' API keys and OAuth credentials remain locally managed.
   home.activation.configurePiAnthropicAuth = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
     run ${pkgs.writeShellScript "configure-pi-anthropic-auth" ''
       set -eu
@@ -196,10 +205,11 @@ in
         printf '{}\n' > "$inputFile"
       fi
 
-      # Read before writing, including when creating auth.json for the first time.
+      # Read before writing, including when initializing auth.json.
       authJson="$(${pkgs.jq}/bin/jq \
-        --arg key ${lib.escapeShellArg "!${pkgs.coreutils}/bin/cat ${lib.escapeShellArg osConfig.sops.secrets.anthropic-api-key.path}"} \
-        '.anthropic = {type: "api_key", key: $key}' "$inputFile")"
+        --arg key ${lib.escapeShellArg "!${claudeTokenReader}"} \
+        'if type != "object" then error("pi auth must be an object") else . end
+         | .anthropic = {type: "api_key", key: $key}' "$inputFile")"
       printf '%s\n' "$authJson" > "$tempFile"
       ${pkgs.coreutils}/bin/chmod 0600 "$tempFile"
       ${pkgs.coreutils}/bin/mv -f "$tempFile" "$authFile"
@@ -214,6 +224,7 @@ in
       --argjson overrides '${builtins.toJSON compactionOverrides}' \
       '.defaultProvider = "anthropic"
         | .defaultModel = "claude-opus-5-5"
+        | .defaultThinkingLevel = "high"
         | .compaction.modelOverrides = $overrides' \
       "$settingsFile" > "$tempFile"; then
       ${pkgs.coreutils}/bin/mv "$tempFile" "$settingsFile"

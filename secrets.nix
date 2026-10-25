@@ -18,7 +18,7 @@
     mode = "0400";
   };
 
-  sops.secrets.anthropic-api-key = {
+  sops.secrets.claude-subscription-key = {
     owner = "xavier";
     mode = "0400";
   };
