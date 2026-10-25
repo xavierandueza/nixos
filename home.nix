@@ -17,6 +17,7 @@
     ./programs/nvim.nix
     ./programs/herdr.nix
     ./programs/pi.nix
+    ./programs/mcp.nix
     ./programs/zen-browser.nix
     ./programs/screenshot.nix
     ./programs/hypr
@@ -27,7 +28,6 @@
   home.file.".codex/AGENTS.md".source = inputs.agents + "/AGENTS.md";
   home.file.".config/opencode/AGENTS.md".source = inputs.agents + "/AGENTS.md";
   home.file.".pi/agent/AGENTS.md".source = inputs.agents + "/AGENTS.md";
-  home.file.".config/mcp/mcp.json".source = inputs.agents + "/mcp.json";
 
   fonts.fontconfig.enable = true;
 }

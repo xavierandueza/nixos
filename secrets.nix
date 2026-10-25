@@ -22,4 +22,9 @@
     owner = "xavier";
     mode = "0400";
   };
+
+  sops.secrets.langfuse-mcp-headers = {
+    owner = "xavier";
+    mode = "0400";
+  };
 }
