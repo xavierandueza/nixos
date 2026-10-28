@@ -7,9 +7,29 @@
 let
   herdr = inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.herdr;
   toml = pkgs.formats.toml { };
+  herdrNotRunning = pkgs.writeShellScript "herdr-not-running" ''
+    ! ${herdr}/bin/herdr status server | ${pkgs.gnugrep}/bin/grep -q '^status: running'
+  '';
 in
 {
   home.packages = [ herdr ];
+
+  # Keeps the default session alive across logouts and reboots so remote machines can attach.
+  systemd.user.services.herdr = {
+    Unit = {
+      Description = "Herdr server";
+      # Restarting on rebuild would kill every pane; restart manually after a Herdr upgrade.
+      X-RestartIfChanged = false;
+    };
+    Service = {
+      # Skip, rather than fail, when a TUI-started server already owns the session.
+      ExecCondition = "${herdrNotRunning}";
+      ExecStart = "${herdr}/bin/herdr server";
+      Restart = "on-failure";
+      RestartSec = 5;
+    };
+    Install.WantedBy = [ "default.target" ];
+  };
 
   # Run after the write boundary, and after Pi packages once that module is imported.
   home.activation.installHerdrPiIntegration =

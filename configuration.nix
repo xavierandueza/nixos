@@ -14,6 +14,8 @@
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
     ./secrets.nix
+    ./modules/tailscale.nix
+    ./modules/ssh.nix
   ];
 
   nix.settings.experimental-features = [
@@ -107,6 +109,8 @@
     extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
     shell = pkgs.bash;
     home = "/home/xavier";
+    # Starts user services (the Herdr server) at boot, without a login.
+    linger = true;
   };
 
   # Rootless avoids the docker group, which is effectively root access.
@@ -132,9 +136,6 @@
   # };
 
   # List services that you want to enable:
-
-  # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
