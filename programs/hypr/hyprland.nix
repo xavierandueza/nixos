@@ -42,6 +42,12 @@
       	  "SUPER + SHIFT + " .. item.key,
       	  hl.dsp.window.move({ direction = item.direction })
       	);
+
+      	-- Move workspace to monitor
+      	hl.bind(
+      	  "SUPER + ALT + SHIFT + " .. item.key,
+      	  hl.dsp.workspace.move({ monitor = item.direction })
+      	);
       end
 
       -- Workspaces
@@ -55,12 +61,6 @@
         -- Move window to workspace
       	hl.bind("SUPER + SHIFT + " .. key, hl.dsp.window.move({ workspace = ws, follow = true }));
       end
-
-      -- Move Workspace to Monitor
-      for i = 1, 2 do
-        local key = tostring(i);
-        hl.bind("SUPER + ALT + " .. key, hl.dsp.workspace.move({ monitor = i }));
-      end;
 
       -- Styles
       hl.curve( "myBezier", { type = "bezier", points = { {0, 0.25}, {0.5, 1} } });

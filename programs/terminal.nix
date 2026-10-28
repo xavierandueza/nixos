@@ -92,5 +92,6 @@
     };
     docker-cli.enable = true;
     lazydocker.enable = true;
+    wiremix.enable = true;
   };
 }

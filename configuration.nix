@@ -109,7 +109,11 @@
     home = "/home/xavier";
   };
 
-  virtualisation.docker.enable = true;
+  # Rootless avoids the docker group, which is effectively root access.
+  virtualisation.docker.rootless = {
+    enable = true;
+    setSocketVariable = true;
+  };
 
   # List packages installed in system profile.
   # You can use https://search.nixos.org/ to find more packages (and options).

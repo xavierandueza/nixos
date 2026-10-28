@@ -17,6 +17,7 @@
     ./programs/nvim.nix
     ./programs/herdr.nix
     ./programs/pi.nix
+    ./programs/claude-code.nix
     ./programs/mcp.nix
     ./programs/zen-browser.nix
     ./programs/screenshot.nix

@@ -10,6 +10,8 @@
     ./hyprpolkitagent.nix
     ./mako.nix
     ./media-keys
+    ./monitors.nix
+    ./tui-popups.nix
     ./waybar.nix
   ];
 }

@@ -2,20 +2,11 @@
   pkgs,
   inputs,
   lib,
-  osConfig,
+  config,
   ...
 }:
 let
   pi = inputs.pi.packages.${pkgs.system}.default;
-
-  claudeTokenReader = pkgs.writeShellScript "read-pi-claude-token" ''
-    set -eu
-    token="$(${pkgs.coreutils}/bin/cat ${lib.escapeShellArg osConfig.sops.secrets.claude-subscription-key.path})"
-    case "$token" in
-      sk-ant-oat*) printf '%s\n' "$token" ;;
-      *) echo "Expected a Claude subscription setup-token, not an API key" >&2; exit 1 ;;
-    esac
-  '';
 
   piPackages = [
     "npm:context-mode"
@@ -69,10 +60,6 @@ let
 
   # Cap model context windows for models I use
   contextLimits = {
-    anthropic = {
-      claude-opus-5-5 = mainLimits;
-      claude-haiku-5-5 = workerLimits;
-    };
     claude-bridge = {
       claude-opus-5-5 = mainLimits;
       claude-haiku-5-5 = workerLimits;
@@ -121,10 +108,7 @@ let
   '';
 in
 {
-  home.packages = [
-    pi
-    pkgs.claude-code
-  ];
+  home.packages = [ pi ];
 
   # The bridge ignores Pi's maxTokens; enforce the cap in Claude Code instead.
   home.file.".pi/agent/bin/claude-bridge" = {
@@ -132,11 +116,8 @@ in
     text = ''
       #!${pkgs.runtimeShell}
       set -eu
-      unset ANTHROPIC_API_KEY ANTHROPIC_AUTH_TOKEN
-      CLAUDE_CODE_OAUTH_TOKEN="$(${claudeTokenReader})"
-      export CLAUDE_CODE_OAUTH_TOKEN
       export CLAUDE_CODE_MAX_OUTPUT_TOKENS=${toString outputLimits.maxTokens}
-      exec ${pkgs.claude-code}/bin/claude "$@"
+      exec ${lib.escapeShellArg "${config.home.homeDirectory}/.local/bin/claude"} "$@"
     '';
   };
 
@@ -190,26 +171,20 @@ in
     ---
   '';
 
-  home.activation.configurePiAnthropicAuth = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-    run ${pkgs.writeShellScript "configure-pi-anthropic-auth" ''
+  # Remove the former native-provider credential. Subscription auth now belongs
+  # exclusively to Claude Code; preserve OpenAI and other local credentials.
+  home.activation.removePiAnthropicAuth = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    run ${pkgs.writeShellScript "remove-pi-anthropic-auth" ''
       set -eu
       umask 077
       authFile="$HOME/.pi/agent/auth.json"
-      ${pkgs.coreutils}/bin/mkdir -p "$HOME/.pi/agent"
+      [ -f "$authFile" ] || exit 0
       tempFile="$(${pkgs.coreutils}/bin/mktemp "$authFile.XXXXXX")"
       trap '${pkgs.coreutils}/bin/rm -f "$tempFile"' EXIT
 
-      inputFile="$authFile"
-      if [ ! -f "$inputFile" ]; then
-        inputFile="$tempFile"
-        printf '{}\n' > "$inputFile"
-      fi
-
-      # Read before writing, including when initializing auth.json.
       authJson="$(${pkgs.jq}/bin/jq \
-        --arg key ${lib.escapeShellArg "!${claudeTokenReader}"} \
         'if type != "object" then error("pi auth must be an object") else . end
-         | .anthropic = {type: "api_key", key: $key}' "$inputFile")"
+         | del(.anthropic)' "$authFile")"
       printf '%s\n' "$authJson" > "$tempFile"
       ${pkgs.coreutils}/bin/chmod 0600 "$tempFile"
       ${pkgs.coreutils}/bin/mv -f "$tempFile" "$authFile"
@@ -222,7 +197,7 @@ in
 
     if ${pkgs.jq}/bin/jq \
       --argjson overrides '${builtins.toJSON compactionOverrides}' \
-      '.defaultProvider = "anthropic"
+      '.defaultProvider = "claude-bridge"
         | .defaultModel = "claude-opus-5-5"
         | .defaultThinkingLevel = "high"
         | .compaction.modelOverrides = $overrides' \

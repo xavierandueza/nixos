@@ -12,7 +12,7 @@
           position = "top";
           height = 27;
           output = [
-            "eDP-1"
+            "*"
           ];
           modules-left = [ "hyprland/workspaces" ];
           modules-center = [ "clock" ];
