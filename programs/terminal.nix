@@ -16,6 +16,10 @@
         font-size = 10;
         theme = "TokyoNight Moon";
         clipboard-read = "allow";
+        keybind = [
+          "ctrl+shift+c=copy_to_clipboard"
+          "ctrl+shift+v=paste_from_clipboard"
+        ];
       };
     };
 
