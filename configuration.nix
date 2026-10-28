@@ -40,10 +40,16 @@
 
   networking.hostName = "framework16"; # Define your hostname.
 
-  networking.networkmanager = {
+  networking.wireless.iwd = {
     enable = true;
-    wifi.backend = "iwd";
+    settings = {
+      General.EnableNetworkConfiguration = true;
+      Network.NameResolvingService = "resolvconf";
+    };
   };
+
+  # iwd handles DHCP; stops dhcpcd fighting it on wlan0
+  networking.useDHCP = false;
 
   hardware.bluetooth = {
     enable = true;
