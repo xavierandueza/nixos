@@ -19,6 +19,7 @@
         keybind = [
           "ctrl+shift+c=copy_to_clipboard"
           "ctrl+shift+v=paste_from_clipboard"
+          "ctrl+shift+comma=reload_config"
         ];
       };
     };
