@@ -22,6 +22,7 @@
     ./programs/zen-browser.nix
     ./programs/screenshot.nix
     ./programs/hypr
+    ./programs/skills.nix
   ];
 
   # Shared global instructions across coding agents.
