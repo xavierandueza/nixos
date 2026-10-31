@@ -119,6 +119,16 @@
     setSocketVariable = true;
   };
 
+  # Lets prebuilt binaries (npm/pip/uv, Mason) find a dynamic loader and libs.
+  programs.nix-ld = {
+    enable = true;
+    libraries = with pkgs; [
+      stdenv.cc.cc.lib
+      zlib
+      openssl
+    ];
+  };
+
   # List packages installed in system profile.
   # You can use https://search.nixos.org/ to find more packages (and options).
   environment.systemPackages = with pkgs; [
