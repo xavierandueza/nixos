@@ -3,6 +3,7 @@
 {
   home.packages = [
     pkgs.bluetui
+    pkgs.charm-freeze
   ];
 
   programs = {
