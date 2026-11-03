@@ -20,6 +20,13 @@
         text-color=#c8d3f5
         border-color=#82aaff
         progress-color=over #444a73
+
+        # Media key popups (see ./media-keys) are short-lived.
+        [app-name=volume]
+        default-timeout=2000
+
+        [app-name=brightness]
+        default-timeout=2000
       '';
     };
   };
