@@ -3,11 +3,11 @@
     "agents": {
       "flake": false,
       "locked": {
-        "lastModified": 1792378809,
-        "narHash": "sha256-X/oou1smsz2Dg0jrpb/1qJ6ytnPW1XHzroR5t7vAflc=",
+        "lastModified": 1793671599,
+        "narHash": "sha256-Mhi9ETOjd4lxEICccjmO3MFz+LNWBnY9/fui8q+Y20E=",
         "owner": "xavierandueza",
         "repo": "agents",
-        "rev": "fffe467a7dac95d0548effd651f8cf992944269e",
+        "rev": "44d5b6b37defe315bdf959ba3a27e5264b6aa5fa",
         "type": "github"
       },
       "original": {
@@ -161,7 +161,7 @@
         "type": "github"
       }
     },
-    "nixpkgs_7": {
+    "nixpkgs_3": {
       "locked": {
         "lastModified": 1788316716,
         "narHash": "sha256-bc7rSpXIdn9QWGNqfWcPZWOhEVF8NoeAZkWq0XWnf/k=",
@@ -179,7 +179,7 @@
     },
     "pi": {
       "inputs": {
-        "nixpkgs": "nixpkgs_7",
+        "nixpkgs": "nixpkgs_3",
         "nixpkgs-darwin-x64": "nixpkgs-darwin-x64"
       },
       "locked": {
@@ -199,13 +199,13 @@
     },
     "root": {
       "inputs": {
+        "agents": "agents",
         "home-manager": "home-manager",
         "llm-agents": "llm-agents",
         "nixpkgs": "nixpkgs_2",
         "pi": "pi",
         "sops-nix": "sops-nix",
-        "zen-browser": "zen-browser",
-        "agents": "agents"
+        "zen-browser": "zen-browser"
       }
     },
     "sops-nix": {
