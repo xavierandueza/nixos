@@ -9,9 +9,6 @@
     enable = true;
 
     extraConfig = ''
-      -- TODO: update to hyprshutdown at some point
-      hl.bind("SUPER + SHIFT + M", hl.dsp.exit());
-
       -- Application binds
       hl.bind("SUPER + RETURN", hl.dsp.exec_cmd("ghostty"));
       hl.bind("SUPER + SHIFT + B", hl.dsp.exec_cmd("zen-beta"));
@@ -79,6 +76,9 @@
         input = {
           kb_layout = "us";
           kb_variant = "colemak";
+          accel_profile = "adaptive";
+          repeat_delay = 400;
+          repeat_rate = 100;
         };
 
         general = {
@@ -100,6 +100,10 @@
         cursor = {
           hide_on_key_press = true;
           inactive_timeout = 60;
+        };
+
+        misc = {
+          middle_click_paste = false;
         };
       };
     };
