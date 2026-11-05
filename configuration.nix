@@ -105,6 +105,8 @@
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.xavier = {
     isNormalUser = true;
+    # Pinned because the rootless Docker context hardcodes /run/user/<uid>.
+    uid = 1000;
     description = "Xavier";
     extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
     shell = pkgs.bash;
