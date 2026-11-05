@@ -10,6 +10,7 @@
     pkgs.slack
     pkgs.discord
     pkgs.wl-clipboard
+    pkgs.google-cloud-sdk
   ];
 
   imports = [
