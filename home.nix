@@ -21,8 +21,10 @@
     ./programs/mcp.nix
     ./programs/zen-browser.nix
     ./programs/screenshot.nix
+    ./programs/voxtype.nix
     ./programs/hypr
     ./programs/skills.nix
+    ./programs/playwright.nix
   ];
 
   # Shared global instructions across coding agents.
