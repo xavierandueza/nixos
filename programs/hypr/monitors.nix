@@ -21,6 +21,12 @@
         mode = "preferred",
         scale = "1.25"
       })
+
+      hl.monitor({
+        output = "DP-3",
+        mode = "preferred",
+        scale = "1.6666666",
+      })
     '';
   };
 }
