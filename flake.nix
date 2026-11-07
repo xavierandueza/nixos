@@ -27,6 +27,11 @@
       url = "github:xavierandueza/agents";
       flake = false;
     };
+
+    loops = {
+      url = "github:xavierandueza/loops";
+      flake = false;
+    };
   };
 
   outputs =

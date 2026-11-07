@@ -26,6 +26,7 @@
     ./programs/hypr
     ./programs/skills.nix
     ./programs/playwright.nix
+    ./programs/loops.nix
   ];
 
   # Shared global instructions across coding agents.

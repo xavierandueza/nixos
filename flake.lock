@@ -113,6 +113,22 @@
         "type": "github"
       }
     },
+    "loops": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1790634798,
+        "narHash": "sha256-DOk1sxhNqVXGp9ZPv+AWE47jz77kOY7C62DgEosy4Ww=",
+        "owner": "xavierandueza",
+        "repo": "loops",
+        "rev": "c73f405d1fe17788031c17c8f60ad1a5808f9e11",
+        "type": "github"
+      },
+      "original": {
+        "owner": "xavierandueza",
+        "repo": "loops",
+        "type": "github"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1790600678,
@@ -202,6 +218,7 @@
         "agents": "agents",
         "home-manager": "home-manager",
         "llm-agents": "llm-agents",
+        "loops": "loops",
         "nixpkgs": "nixpkgs_2",
         "pi": "pi",
         "sops-nix": "sops-nix",
