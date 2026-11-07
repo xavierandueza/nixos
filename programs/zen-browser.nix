@@ -154,6 +154,41 @@
               };
 
             };
+            "t0" = {
+              id = "02e2b979-eab0-4d0e-b067-d84234099768";
+              position = 3000;
+              icon = "🟧";
+              theme = {
+                type = "gradient";
+
+                colors = [
+                  {
+                    red = 155;
+                    green = 70;
+                    blue = 20;
+                    algorithm = "floating";
+                    type = "explicit-lightness";
+                    lightness = 50;
+                  }
+                  {
+                    red = 214;
+                    green = 110;
+                    blue = 40;
+                    algorithm = "floating";
+                    type = "explicit-lightness";
+                    lightness = 50;
+                  }
+                  {
+                    red = 245;
+                    green = 150;
+                    blue = 60;
+                    algorithm = "floating";
+                    type = "explicit-lightness";
+                    lightness = 50;
+                  }
+                ];
+              };
+            };
           };
         };
       };
