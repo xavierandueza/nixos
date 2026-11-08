@@ -61,6 +61,8 @@
               icon = "briefcase";
             };
           };
+          pinsForce = true;
+          pinsForceAction = "remove";
           spacesForce = true;
           spaces = {
             "Personal" = {
@@ -98,9 +100,9 @@
                 ];
               };
               pins = {
-                "ChatGPT" = {
-                  id = "58793b4f-2970-4387-8142-10e4b136936d";
-                  url = "https://chatgpt.com/";
+                "Linear" = {
+                  id = "c2f67572-fe7a-48d2-a632-c2d904b57093";
+                  url = "https://linear.app/";
                   position = 100;
                   isEssential = true;
                 };
@@ -114,6 +116,24 @@
                   id = "faef6165-f4e8-41cc-b64b-0af980504d77";
                   url = "https://calendar.notion.so/";
                   position = 300;
+                  isEssential = true;
+                };
+                "Engine PRs" = {
+                  id = "f729765c-38e4-4e92-9dbc-f3c66c6e75d5";
+                  url = "https://github.com/transition-zero-app/transition_zero_engine/pulls";
+                  position = 400;
+                  isEssential = true;
+                };
+                "1Password" = {
+                  id = "60dd1a48-cf58-4530-9da4-219927a7dfd9";
+                  url = "https://my.1password.com/";
+                  position = 500;
+                  isEssential = true;
+                };
+                "Loom" = {
+                  id = "92a2379e-5363-4cb3-a62e-802ad30a9a33";
+                  url = "https://www.loom.com/looms/videos";
+                  position = 600;
                   isEssential = true;
                 };
               };
