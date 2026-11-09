@@ -43,6 +43,8 @@
       enable = true;
       enableBashIntegration = true;
       nix-direnv.enable = true;
+      # Hide status lines (loading, export diff); errors bypass the filter.
+      config.global.log_filter = "^$";
     };
 
     ripgrep.enable = true;
