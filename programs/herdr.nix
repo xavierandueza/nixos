@@ -116,7 +116,8 @@ in
           {
             key = "ctrl+shift+g";
             type = "popup";
-            command = ''root="$(git -C "''${HERDR_ACTIVE_PANE_CWD:-$PWD}" rev-parse --show-toplevel 2>/dev/null || printf '%s' "''${HERDR_ACTIVE_PANE_CWD:-$PWD}")"; cd "$root" && exec lazygit'';
+            # Popups skip shell init, so load the repo's direnv env for git hooks.
+            command = ''root="$(git -C "''${HERDR_ACTIVE_PANE_CWD:-$PWD}" rev-parse --show-toplevel 2>/dev/null || printf '%s' "''${HERDR_ACTIVE_PANE_CWD:-$PWD}")"; cd "$root" && exec env DIRENV_LOG_FORMAT= direnv exec "$root" lazygit'';
             description = "Open lazygit";
             width = "90%";
             height = "90%";
