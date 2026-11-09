@@ -18,7 +18,7 @@
 
       hl.monitor({
         output = "DP-4",
-        mode = "3840x2160@120.00Hz",
+        mode = "3840x2160@120.00",
         scale = "1.5"
       })
 
