@@ -77,8 +77,8 @@
           kb_layout = "us";
           kb_variant = "colemak";
           accel_profile = "adaptive";
-          repeat_delay = 400;
-          repeat_rate = 100;
+          repeat_delay = 250;
+          repeat_rate = 50;
         };
 
         general = {
