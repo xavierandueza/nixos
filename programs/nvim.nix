@@ -338,6 +338,13 @@
           require("conform").setup({
             formatters_by_ft = {
               nix = { "nixfmt" },
+              python = { "ruff_format" },
+            },
+            formatters = {
+              -- prefer the project's pinned ruff so formatting matches its hooks/CI
+              ruff_format = {
+                command = require("conform.util").find_executable({ ".venv/bin/ruff" }, "ruff"),
+              },
             },
             format_on_save = {
               timeout_ms = 2000,
@@ -374,6 +381,8 @@
       nixd # Nix LSP (completion/hover/go-to-def, nixpkgs/flake-aware)
       vtsls # TypeScript/JavaScript LSP (tsserver wrapper)
       oxlint # fast JS/TS linter (Rust); nvim-lint has a built-in parser for it
+      ty # Python type checker/LSP (Astral); auto-discovers the project's .venv
+      ruff # Python linter/formatter; fallback when a project has no .venv ruff
     ];
     initLua = ''
       vim.g.mapleader = " "
@@ -477,7 +486,31 @@
         capabilities = lsp_capabilities,
       })
 
-      vim.lsp.enable({ "vtsls", "nixd" })
+      vim.lsp.config("ty", {
+        cmd = { "ty", "server" },
+        filetypes = { "python" },
+        root_markers = { "ty.toml", "pyproject.toml", ".git" },
+        capabilities = lsp_capabilities,
+      })
+
+      vim.lsp.config("ruff", {
+        -- prefer the project's pinned ruff so diagnostics match its hooks/CI
+        cmd = function(dispatchers, config)
+          local ruff = "ruff"
+          if config.root_dir then
+            local venv_ruff = vim.fs.joinpath(config.root_dir, ".venv/bin/ruff")
+            if vim.fn.executable(venv_ruff) == 1 then
+              ruff = venv_ruff
+            end
+          end
+          return vim.lsp.rpc.start({ ruff, "server" }, dispatchers, { cwd = config.root_dir })
+        end,
+        filetypes = { "python" },
+        root_markers = { "pyproject.toml", "ruff.toml", ".ruff.toml", ".git" },
+        capabilities = lsp_capabilities,
+      })
+
+      vim.lsp.enable({ "vtsls", "nixd", "ty", "ruff" })
 
       vim.api.nvim_create_autocmd("LspAttach", {
         callback = function(args)
